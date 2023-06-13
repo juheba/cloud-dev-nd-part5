@@ -1,4 +1,5 @@
 import middy from "@middy/core"
+import warmup from "@middy/warmup"
 import middyJsonBodyParser from "@middy/http-json-body-parser"
 import cors from '@middy/http-cors'
 
@@ -9,4 +10,8 @@ export const middyfy = (handler) => {
       // default adds header 'Access-Control-Allow-Origin': '*'
       credentials: true  // adds header 'Access-Control-Allow-Credentials': true
     }))
+    .use(warmup())
+    /*.use(warmup({
+        isWarmingUp: event => event.source === 'serverless-plugin-warmup'
+    }))*/
 }

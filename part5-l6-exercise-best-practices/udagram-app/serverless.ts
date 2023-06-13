@@ -15,6 +15,7 @@ const serverlessConfiguration: AWS = {
     'serverless-aws-documentation',
     'serverless-plugin-tracing',
     'serverless-plugin-canary-deployments',
+    'serverless-plugin-warmup',
     'serverless-dynamodb-local',
     'serverless-offline'
   ],
@@ -425,6 +426,14 @@ const serverlessConfiguration: AWS = {
     snsTopicName: 'imagesTopic-${self:provider.stage}',
     "serverless-offline": {
       httpPort: 3003
+    },
+    warmup: {
+      enabled: true,             // Enabled for all functions
+      name: 'warm-up-function',  // Name of the generated function
+      payload: {                 // Warmup invocation payload
+        isWarmup: true
+      },
+      concurrency: 5             // Specifies the number of warmup invocations to run in parallel
     },
     dynamodb: {
       start: { 
